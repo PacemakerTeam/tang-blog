@@ -16,19 +16,23 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
-    username: cos
+    username: root
     password: 4781
 
-#  jpa:
-#    open-in-view: true
-#    hibernate:
-#      ddl-auto: create
-#      naming:
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#      use-new-id-generator-mappings: false
-#    show-sql: true
-#    properties:
-#      hibernate.format_sql: true
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+#      create는 테이블 drop후 새로 만듬. update, none등이 잇음
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#        전략. 현재는 myEmail -> my_Email 카멜->스네이크로 테이블 생성해줌
+      use-new-id-generator-mappings: false
+    show-sql: true
+#    콘솔에 sql문 보여주기 여부
+    properties:
+      hibernate.format_sql: true
+#      보여주는 sql문 정리리
 
   jackson:
     serialization:

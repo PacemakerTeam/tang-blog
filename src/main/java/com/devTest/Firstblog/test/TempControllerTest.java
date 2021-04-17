@@ -18,6 +18,7 @@ public class TempControllerTest {
     @GetMapping("/temp/jsp")
     public String tempJsp() {
         // WEB-INF/views 네임 / test.jsp
+        System.out.println("temp/jsp");
         return "test";
     }
 }
