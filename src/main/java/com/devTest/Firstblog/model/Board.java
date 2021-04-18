@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,9 +31,14 @@ public class Board {
     @ColumnDefault("0") //문자는 '' 붙여주고, 숫자는 안 부텽줘도 됨
     private int count; // 조회수
 
-    @ManyToOne //Many==board, user=one
+    @ManyToOne(fetch = FetchType.EAGER) //Many==board, user=one // 한개만 가져와 기본적으로 EAGER
     @JoinColumn(name="userId")
     private User user; // DB는 오브젝트를 저장할 수 없다. Fk, 자바는 오브젝트를 저장할 수 있다.
+
+    //List로 가져오니까..(많잖아) OneToMany는 LAZY가 기본 전략.
+    //mappedBy 연관관계의 주인이 아니다 (난 FK가 아니에요) DB에 만들지 마세요
+    @OneToMany(mappedBy = "board", fetch=FetchType.EAGER)
+    private List<Reply> reply;
 
     @CreationTimestamp // 시간이 자동 입력
     private Timestamp createDate;
