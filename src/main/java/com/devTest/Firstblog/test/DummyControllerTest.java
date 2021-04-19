@@ -4,6 +4,7 @@ import com.devTest.Firstblog.model.RoleType;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -21,6 +23,16 @@ public class DummyControllerTest {
     @Autowired //의존성 주입 DI
     private UserRepository userRepository;
 
+    @DeleteMapping("/dummy/user/{id}")
+    public String delete(@PathVariable int id){
+        try{
+            userRepository.deleteById(id);
+        }catch(EmptyResultDataAccessException e){
+            return "삭제에 실패했습니다. 해당 id는 DB에 없습니다";
+        }
+
+        return "삭제되었습니다 id = "+ id;
+    }
 
 
     //save함수는 id를 전달하지 않으면 insert를 해주고,
@@ -61,7 +73,6 @@ public class DummyControllerTest {
 
         //더티 체킹
         //스냅샷이랑 변경 된 데이터 감지 -> update flush -> 더티 체킹
-
         return user;
     }
 
