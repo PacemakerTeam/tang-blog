@@ -4,11 +4,16 @@ import com.devTest.Firstblog.model.RoleType;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 //html파일이 아니라 data를 return해주는 어노테이션 @RestController
@@ -17,6 +22,24 @@ public class DummyControllerTest {
 
     @Autowired //의존성 주입 DI
     private UserRepository userRepository;
+
+    //http:localhost:8000/blog/dummy/user
+    @GetMapping("/dummy/users")
+    public List<User> list(){
+        return userRepository.findAll();
+    }
+
+    //한 페이지당 2건에 데이터를 리넡받아 볼 예정
+    @GetMapping("dummy/user")
+    public List<User> pageList(@PageableDefault(size=2, sort="id", direction= Sort.Direction.DESC) Pageable pageable){
+
+//        List<User> users = userRepository.findAll(pageable).getContent();
+        Page<User> pagingUser = userRepository.findAll(pageable);
+//        if(pagingUser.isLast()){};
+//        if(pagingUser.isFirst()){};
+        List<User> users = pagingUser.getContent();
+        return users;
+    }
 
     //{id}주소로 파라미터를ㅈ ㅓㄴ달받을 수 있음.
     //http://localhost:8000/blog/dummy/user/3
