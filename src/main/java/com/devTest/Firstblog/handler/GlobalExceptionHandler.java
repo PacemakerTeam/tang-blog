@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
     public String handleArgumentException(IllegalArgumentException e){
         return "<h1>"+e.getMessage()+"</h1>";
     }
-    @ExceptionHandler(value=Exception.class)
-    public String handleException(IllegalArgumentException e){
-        return "<h1> Exception"+e.getMessage()+"</h1>";
-    }
+//    @ExceptionHandler(value=Exception.class)
+//    public String handleException(IllegalArgumentException e){
+//        return "<h1> Exception"+e.getMessage()+"</h1>";
+//    }
 }
