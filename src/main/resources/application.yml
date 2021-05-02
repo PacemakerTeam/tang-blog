@@ -23,6 +23,8 @@ spring:
     open-in-view: true
 #    Lazy로딩이 가능하다. 기본적으로 true
 #   false 시 Persistence Context가 Service시점으로 내려와서, Controller에서 영속성 컨텍스트 사용 불가능
+#    이 개념을 떠올리기 위해선 요청 - 톰켓 - C S R - 영속성 컨텍스트 - DB 과정을 떠올리면 좋다.
+#    OSIV OpenSessionInView
     hibernate:
       ddl-auto: update
 #      create는 테이블 drop후 새로 만듬. update, none등이 잇음
