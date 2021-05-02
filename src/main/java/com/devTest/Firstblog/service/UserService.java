@@ -30,6 +30,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)//select할 때 트랜잭션 시작, 서비스 종료시에 트랜잭션 종료 (정합성 유지))
+    //select할 때 Transaction실행 여러번 select하더라도 같은 데이터가 select 된다! @Transactional(readOnly = true)
     public User loginProc(User user){
         return userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
     }

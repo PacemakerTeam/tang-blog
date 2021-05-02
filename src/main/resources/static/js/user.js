@@ -3,6 +3,9 @@ let index = {
         $("#btn-save").on("click", () => {
             this.save();
         });
+        $("#btn-login").on("click", () => {
+            this.login();
+        });
     },
 
     save: function () {
@@ -12,7 +15,7 @@ let index = {
             password: $("#password").val(),
             email   : $("#email").val(),
         };
-        // console.log(data);
+        console.log(data);
 
         // ajax호출 시 default가 비동기 호출,
         // ajax통신을 활용해서 3개의 데이터를 json으로 변경하여 insert요청!

@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
 //    }
     @ExceptionHandler(value=Exception.class)
     public ResponseDto<String> handleArgumentException(Exception e){
+        System.out.println("핸들러 exception");
         return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 }
