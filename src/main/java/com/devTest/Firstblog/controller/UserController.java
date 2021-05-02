@@ -12,7 +12,7 @@ public class UserController {
     }
 
     @GetMapping("/user/loginForm")
-    public String longinForm(){
+        public String longinForm(){
         return "user/loginForm";
     }
 }
