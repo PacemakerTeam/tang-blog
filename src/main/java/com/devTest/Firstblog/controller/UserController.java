@@ -9,17 +9,17 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserController {
 
-    @GetMapping("/user/joinForm")
+    @GetMapping("/joinForm")
     public String joinForm(){
         return "user/joinForm";
     }
 
-    @GetMapping("/user/loginForm")
+    @GetMapping("/loginForm")
         public String longinForm(){
         return "user/loginForm";
     }
 
-    @GetMapping("/user/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session){
         session.removeAttribute("principal");
         return "/user/loginForm";

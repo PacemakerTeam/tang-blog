@@ -21,7 +21,7 @@ public class UserApiController {
     //@Resource는 @Autowired랑 같은 기능을 함. 자바표준 <-> 스프링
     private UserService userService;
 
-    //@Autowired
+//@Autowired
 //    private HttpSession session 이 말은 스프링 컨테이너가 빈으로 관리한다는 말!
 
     @PostMapping("/api/user")
@@ -34,6 +34,7 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
     }
 
+    /*
     @PostMapping("/api/user/login")
     public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
         System.out.println("UserApiController.login");
@@ -43,4 +44,8 @@ public class UserApiController {
         }
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
+     */
+    //security 모든 페이지 접근 막는다.
+    //처음 아이디 user
+    //비밀번호 콘솔에 찍힘 1efa9507-7abf-440c-a40a-ba368153f225
 }

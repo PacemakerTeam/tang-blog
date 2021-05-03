@@ -19,7 +19,8 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//security를 쓰기 위해! 중요!
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
@@ -28,13 +29,14 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
-	// 시큐리티 태그 라이브러리
-//	testImplementation 'org.springframework.security:spring-security-taglibs'
+	testImplementation 'org.springframework.security:spring-security-test'
+
 	// JSP 템플릿 엔진 -> testImplementation으로 받아와서 안 되더라....
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	// JSTL-> testImplementation으로 받아와서 안 되더라.... 차이가 뭐지?
 	implementation 'javax.servlet:jstl'
+	//	 시큐리티 태그 라이브러리
+	testImplementation 'org.springframework.security:spring-security-taglibs'
 }
 test {
 	useJUnitPlatform()
