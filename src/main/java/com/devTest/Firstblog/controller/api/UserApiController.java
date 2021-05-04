@@ -24,7 +24,7 @@ public class UserApiController {
 //@Autowired
 //    private HttpSession session 이 말은 스프링 컨테이너가 빈으로 관리한다는 말!
 
-    @PostMapping("/api/user")
+    @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> save(@RequestBody User user){ //Username, password, email.
         System.out.println("UserApiController.save");
         //DB에 insert하고 아래에서 retunr하면 된다.
@@ -33,18 +33,6 @@ public class UserApiController {
         int result = userService.joinProc(user);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
     }
-
-    /*
-    @PostMapping("/api/user/login")
-    public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
-        System.out.println("UserApiController.login");
-        User principal = userService.loginProc(user); //principal (접근주체)
-        if(principal !=null ){
-            session.setAttribute("principal",principal);
-        }
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-    }
-     */
     //security 모든 페이지 접근 막는다.
     //처음 아이디 user
     //비밀번호 콘솔에 찍힘 1efa9507-7abf-440c-a40a-ba368153f225
