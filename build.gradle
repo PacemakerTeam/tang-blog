@@ -36,7 +36,8 @@ dependencies {
 	// JSTL-> testImplementation으로 받아와서 안 되더라.... 차이가 뭐지?
 	implementation 'javax.servlet:jstl'
 	//	 시큐리티 태그 라이브러리
-	testImplementation 'org.springframework.security:spring-security-taglibs'
+	implementation 'org.springframework.security:spring-security-taglibs'
+	//testImplementation은 test코드에서만 쓰겠다는건가 보다
 }
 test {
 	useJUnitPlatform()
