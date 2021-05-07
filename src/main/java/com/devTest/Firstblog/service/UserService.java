@@ -1,8 +1,10 @@
 package com.devTest.Firstblog.service;
 
+import com.devTest.Firstblog.model.RoleType;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
     @Transactional //여러 가지 프로세스가 모여서 하나의 서비스가 될 수 있다. 이 전체가 성공해야만 커밋해야한다.
                     //중간에 몇 개만 성공하고 나서 db에 커밋되면 안되잖아. 그래서 @Transactional을 붙여줘서 사용할 수 있다.
     public int joinProc(User user){
         try{
+            String rawPassword = user.getPassword();
+            String encPassword = encoder.encode(rawPassword) ;//해쉬
+            user.setPassword(encPassword);
+            user.setRole(RoleType.USER);
+
             userRepository.save(user);
 //            userRepository.save(user);
 //            userRepository.save(user);
