@@ -28,7 +28,7 @@ public class Board {
     @Lob // 대용량
     private String content; //(섬머노트 라이브러리) <html>태그가 섞여서 디자인이 됨
 
-    @ColumnDefault("0") //문자는 '' 붙여주고, 숫자는 안 부텽줘도 됨
+    //@ColumnDefault("0") //문자는 '' 붙여주고, 숫자는 안 부텽줘도 됨
     private int count; // 조회수
 
     @ManyToOne(fetch = FetchType.EAGER) //Many==board, user=one // 한개만 가져와 기본적으로 EAGER
