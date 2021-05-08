@@ -12,6 +12,10 @@ import java.util.Collection;
 public class PrincipalDetail implements UserDetails {
     private User user; //extends해오는 게 상속, 이렇게 품고 있는게 컴포지션
 
+    public PrincipalDetail(User user) {
+        this.user = user;
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
