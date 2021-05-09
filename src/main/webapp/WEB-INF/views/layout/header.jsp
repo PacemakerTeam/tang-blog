@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
-<div>${principal}</div>
+<%--<div>${principal}</div>--%>
 <%--
     시큐리티 라이브러리 받으면 잠긴다. 그러면 기본적으로 스프링이 session을 만들어서 저장해줘. principal에 담겨있음.
        http://localhost:8000/login
