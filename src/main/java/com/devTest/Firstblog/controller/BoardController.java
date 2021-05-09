@@ -10,6 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.transaction.Transactional;
 
 @Controller
 public class BoardController {
@@ -25,6 +28,14 @@ public class BoardController {
         model.addAttribute("boards", boardService.boardList(pageable));
 
         return "index"; //@Controller이기 때문에 viewResolver 작동 -> 해당 인덱스 페이지를 넘겨주는데 model(컬렉션)AndView을 가지고 있음.
+    }
+
+    @Transactional
+    @GetMapping("/board/{id}")
+    public String findById(@PathVariable int id, Model model){
+        //파라미터 받을 땐 @PathVariable int id 넘겨받을 때도 @GetMapping("/board/{id}")
+        model.addAttribute("board",boardService.boardDetail(id));
+        return "board/detail";
     }
 
     //User 권한이 필요

@@ -4,6 +4,7 @@ package com.devTest.Firstblog.service;
 import com.devTest.Firstblog.model.Board;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.BoardRepository;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,10 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    public Board boardDetail(int id){
+        return boardRepository.findById(id)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("글 상세보기 실패 : 아이디를 찾을 수 없습니다");
+                });
+    }
 }
