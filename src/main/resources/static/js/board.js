@@ -6,6 +6,9 @@ let index = {
         $("#btn-delete").on("click", () => {
             this.deleteById();
         });
+        $("#btn-update").on("click", () => {
+            this.update();
+        });
     },
 
     save: function () {
@@ -43,7 +46,28 @@ let index = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
+    update: function () {
+        let id = $("#id").val();
+        let data = {
+            title: $("#title").val(),
+            content: $("#content").val(),
+        };
+        console.log(data);
+
+        $.ajax({
+            type: "PUT",
+            url : "/api/board/"+id,
+            data: JSON.stringify(data), //http body데이터
+            contentType:"application/json; charset=utf-8", //request body데이터가 어떤 타입인지(MIME)
+            dataType:"json"
+        }).done(function (resp) {
+            alert("글수정이 완료되었습니다");
+            location.href="/";
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
 }
 
 index.init();

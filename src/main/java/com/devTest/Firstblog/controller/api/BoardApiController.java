@@ -32,4 +32,10 @@ public class BoardApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
         //근데 이건 논리삭제가 아니네...물리적 삭제네;
     }
+
+    @PutMapping("/api/board/{id}")
+    public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
+        boardService.writeUpdate(id, board);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
 }
