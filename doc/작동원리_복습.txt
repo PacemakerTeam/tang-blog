@@ -1,0 +1,78 @@
+
+전체적인 흐름을 살펴보자.
+일단 톰켓이 시작되면 다양한 필터들이 실행된다.
+다양한 필터...  메모리에 올라가고.
+디스패처가 메모리에 올라간다. /user /auth /~~ 이걸 확인해주는 게 dispatcher
+그걸 확인해서 컨트롤러에 요청해주는 역할을 한다.
+
+컨트롤러 서비스 JPA Repository 영속성 컨텍스트가 메모리에 뜬다.
+얘네는 요청시 마다 메모리에 뜬다.
+사용자가 요청하면 얘네가 뜨겠지?
+또 요청들어오면 쓰레드 하나 더 만들어서 또 뜨고
+또 뜨고 요청 오는 만큼 떠.
+C S R 영속성 컨텍스트 대기하고 있다가 요청 오면 뜨는 애들입니다.
+
+datasource같은 거 DB랑 연결되어있는 얘네는 떠있음. JDBC 커넥션 풀 같은 애들이 여기 아닐까?
+
+ViewResolver, 세션, 인터셉터 등도 있음.
+
+
+만약 사용자가 요청했음. 로그인. request요청
+당연하게 톰켓시작되어있어야겠죠? 필터 한번 거치고, 요청을 디스패쳐가 체크해.
+
+이 요청이 예를 들어 http://localhost:8000/login(POST)
+http body에 username과 password가 날라오겠지?
+
+컨트롤러 살펴봐~ 앙 요기 있넹!!! 하면 컨트롤러 안에 적어둔 로직을 시작함.
+username, passowrd 받았어.
+그리고 받고나서 서비스 로직이 돌아가야겠지? Service에게 넘겨. 서비스야 로그인 해줘~
+서비스에서 로그인 시작을 해. JPA Repository에다가 select요청 해달라고 해. 그럼 JPA repository가 요청 받았잖아?
+그걸로 영속성 컨텍스트에서 찾아봐 -> DB에서 가져와.
+
+SELECT * FROM user where username=1? and password =2?
+
+이 user오브젝트 응답해서 repository에 응답해주고, 다시 이걸 service에서 던져 줌
+service는 로그인할거냐 말거냐 체크해.
+
+session에 user정보 등록할거냐 말거냐 다 service에서 해야겠지?? ㅇㅋㅇㅋ controller는 분기처리하는 것!
+서비스는 하나의 로직 끝내야 함!
+
+그렇게 한 후 controller가 restController냐, Controller냐에 따라 달라.
+restController - 데이터 넘겨줌
+Controller - 페이지 넘겨줌.
+
+Controller에서 뷰 리졸버가 작동함. View Resolver 페이지 만들어서 응답
+
+return "home"; 뷰 리졸버가 WEB-INF views아래에서 찾아. .jsp prefix,suffix넣어서 찾겠지!
+RestController면 뷰 리졸버 작동안하고 그냥 데이터 자체를 넘겨주겠지!!
+뷰 리졸버는 컨트롤러에서 return해서 요청한 거 페이지 찾아서 주는 역할을 한다.
+
+인터셉터
+user/1 1번 유저의 개인정보
+함수(){
+    함수가 실행되기 직전에 인터셊터가 동작해서 이 사용자가 session있는지 확인함.
+}
+
+어쨋든 가로채서 뭔가를 함. 인터셉터! AOP!와 같은 기능이 잇음.
+로그인 페이지로 요청해주거나 권한요청을 하거나... 뭐... 로그 찍는데 도움이 됨.
+
+
+
+-------------------------
+회원가입 요청
+insert
+디스패치에서 체크해서 controller에서 회원가입(){} 찾겠죠!? http body에 username, passowrd, addr, email등이 담겨있겠지?
+json데이터로 넘어올 수도 있고. VO에 setter, getter로 받아질수도 있고. 컨트롤러 단에서는 JDBC연결 됨!
+그리고 service에선 트랜잭션이 시작됨. JPA야 인서트해줘! 영속성 컨텍스트 보고 어 없네. DB에 넣어주세요~
+정상적 회원가입 끝났으면 이 로직은 service에서 끝내고. 트랜잭션 끝내면서!! flush가 이루어짐.(=커밋 됐다는 말) 과정 실패했다? 저장시키지마세요~!
+@Transactional 어노테이션으로 사용가능.
+controller에서 이제 viewResolver사용해서 회원가입 후에 보내고 싶은 페이지로 보내준다.
+
+
+---------------------------------
+서비스는 트랜잭션만 관리하나요?
+만약에 송금 요청 했다. a->b 500만원 송금 요청
+a, b, 500컨트롤러 -> Service는 a업데이트, b업데이트가 다 일어나야함 @Transactional 하나의 로직으로 !
+a와 b의 업데이트가 다 되어야하니까!!!!
+
+한 건이라도 실패하면 rollback해주는 것!
