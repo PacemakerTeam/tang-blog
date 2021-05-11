@@ -28,4 +28,8 @@ public class UserController {
         session.removeAttribute("principal");
         return "/user/loginForm";
     }
+    @GetMapping("/user/updateForm")
+    public String updateForm(){
+        return "user/updateForm";
+    }
 }

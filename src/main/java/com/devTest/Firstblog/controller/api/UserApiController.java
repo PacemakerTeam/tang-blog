@@ -7,10 +7,7 @@ import com.devTest.Firstblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -35,4 +32,9 @@ public class UserApiController {
     //security 모든 페이지 접근 막는다.
     //처음 아이디 user
     //비밀번호 콘솔에 찍힘 1efa9507-7abf-440c-a40a-ba368153f225
+    @PutMapping("/user")
+    public ResponseDto<Integer> update(@RequestBody User user){ //key=value, x-www-form-urlencoded
+        userService.updateUser(user);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
 }

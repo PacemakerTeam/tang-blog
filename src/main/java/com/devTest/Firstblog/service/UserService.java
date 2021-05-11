@@ -38,4 +38,22 @@ public class UserService {
         return -1;
     }
 
+    @Transactional
+    public void updateUser(User user){
+        //수정 시에는 영속성 컨텍스트 User 오브젝트를 영속화시키고,
+        //영속화 된 User 오브젝트를 수정
+        //select를 해서 User오브젝트를 DB로부터 가져오는 이유는 영속화를 위해서
+        //영속화 된 오브젝트를 변경하면 자동으로 DB에 update문을 날려준다.
+        User persistence = userRepository.findById(user.getId()).orElseThrow(()->{
+            return new IllegalArgumentException("회원 찾기 실패");
+        });
+        String rawPassword = user.getPassword();
+        String encPassword = encoder.encode(rawPassword);
+        persistence.setPassword(encPassword);
+        System.out.println(user.getEmail());
+        persistence.setEmail(user.getEmail());
+        //회원정보 함수 종료시 = 서비스 종료 =트랜잭션 종료 = flush = commit이 자동으로 된다.
+        //영속화된 persistance 객체의 변화가 감지되면(더티 체킹) flush. update문 자동으로 날려줌
+    }
+
 }

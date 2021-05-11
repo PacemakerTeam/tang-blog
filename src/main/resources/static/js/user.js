@@ -3,6 +3,9 @@ let index = {
         $("#btn-save").on("click", () => {
             this.save();
         });
+        $('#btn-update').on("click", ()=>{
+            this.update();
+        });
         // $("#btn-login").on("click", () => {
         //     this.login();
         // });
@@ -32,6 +35,27 @@ let index = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         }); // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청!
+    },
+    update: function () {
+        let data = {
+            id: $("#id").val(),
+            password: $("#password").val(),
+            email   : $("#email").val(),
+        };
+        console.log(data);
+
+        $.ajax({
+            type: "PUT",
+            url : "/user",
+            data: JSON.stringify(data), //http body데이터
+            contentType:"application/json; charset=utf-8", //request body데이터가 어떤 타입인지(MIME)
+            dataType:"json" // 응답? json으로 받을게. 기본적으로 문자열( 생긴 게 json이라면 => javascript오브젝트로 변경 )
+        }).done(function (resp) {
+            alert("회원수정이 완료되었습니다");
+            location.href="/";
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
     },
 
     // login: function () {
