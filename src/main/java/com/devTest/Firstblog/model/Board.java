@@ -39,7 +39,8 @@ public class Board {
     //List로 가져오니까..(많잖아) OneToMany는 LAZY가 기본 전략.
     //mappedBy 연관관계의 주인이 아니다 (난 FK가 아니에요) DB에 만들지 마세요
     @OneToMany(mappedBy = "board", fetch=FetchType.EAGER)
-    @JsonIgnoreProperties({"board"})
+    @JsonIgnoreProperties({"board","user"})
+    @OrderBy("id desc")
     private List<Reply> replys;
 
     @CreationTimestamp // 시간이 자동 입력

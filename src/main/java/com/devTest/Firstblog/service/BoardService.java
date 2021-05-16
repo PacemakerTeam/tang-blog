@@ -2,8 +2,10 @@ package com.devTest.Firstblog.service;
 
 
 import com.devTest.Firstblog.model.Board;
+import com.devTest.Firstblog.model.Reply;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.BoardRepository;
+import com.devTest.Firstblog.repository.ReplyRepository;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 //스프링이 컴포넌트 스캔을 통해서 Bean에 등록해줌. IoC해준다.
 @Service
@@ -19,6 +22,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Transactional //여러 가지 프로세스가 모여서 하나의 서비스가 될 수 있다. 이 전체가 성공해야만 커밋해야한다.
                     //중간에 몇 개만 성공하고 나서 db에 커밋되면 안되잖아. 그래서 @Transactional을 붙여줘서 사용할 수 있다.
@@ -59,5 +65,18 @@ public class BoardService {
         board.setTitle(requestBoard.getTitle());
         board.setContent(requestBoard.getContent());
         // 해당 함수로 종료시(Service가 종료될 때)- 트랜잭션이 종료됨. 이 때 더티체킹 -자동 업데이트가 됨. db flush
+    }
+
+    @Transactional
+    public void writeReply(User user, int boardId, Reply requestReply){
+
+        Board board = boardRepository.findById(boardId).orElseThrow(()->{
+            return new IllegalArgumentException("댓글 쓰기 실패: 게시글 id를 찾을 수 없습니다.");
+        });// 영속와 완료
+
+        requestReply.setUser(user);
+        requestReply.setBoard(board);
+
+        replyRepository.save(requestReply);
     }
 }

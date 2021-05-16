@@ -3,6 +3,7 @@ package com.devTest.Firstblog.controller.api;
 import com.devTest.Firstblog.config.auth.PrincipalDetail;
 import com.devTest.Firstblog.dto.ResponseDto;
 import com.devTest.Firstblog.model.Board;
+import com.devTest.Firstblog.model.Reply;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.service.BoardService;
 import com.devTest.Firstblog.service.UserService;
@@ -36,6 +37,13 @@ public class BoardApiController {
     @PutMapping("/api/board/{id}")
     public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
         boardService.writeUpdate(id, board);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    @PostMapping("/api/board/{boardId}/reply")
+    public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal){
+
+        boardService.writeReply(principal.getUser(), boardId, reply);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }
