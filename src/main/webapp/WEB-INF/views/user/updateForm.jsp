@@ -19,10 +19,12 @@
             <input type="email" value="${principal.user.email}" class="form-control" placeholder="Enter email">
         </div>
     </c:if>
+    <c:if test="${not empty principal.user.oauth}">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" value="${principal.user.email}" class="form-control" placeholder="Enter email" id="email" readonly>
         </div>
+    </c:if>
     </form>
     <button id="btn-update" class="btn btn-primary">회원수정완료</button>
 </div>
