@@ -1,5 +1,6 @@
 package com.devTest.Firstblog.model;
 
+import com.devTest.Firstblog.dto.ReplySaveRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,4 +34,10 @@ public class Reply {
 
     @CreationTimestamp
     private Timestamp createDate;
+
+    public void update(User user, Board board, String content){
+        setUser(user);
+        setBoard(board);
+        setContent(content);
+    }
 }

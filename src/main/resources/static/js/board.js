@@ -76,22 +76,22 @@ let index = {
     replySave: function () {
         // alert('user의 save함수 호출');
         let data = {
+            userId : $("#userId").val(),
+            boardId: $("#boardId").val(),
             content: $("#reply-content").val(),
         };
-
-        let boardId = $("#boardId").val();
 
         console.log(data);
 
         $.ajax({
             type: "POST",
-            url : `/api/board/${boardId}/reply`,
+            url : `/api/board/${data.boardId}/reply`,
             data: JSON.stringify(data), //http body데이터
             contentType:"application/json; charset=utf-8", //request body데이터가 어떤 타입인지(MIME)
             dataType:"json"
         }).done(function (resp) {
             alert("댓글 작성이 완료되었습니다");
-            location.href=`/board/${boardId}`;
+            location.href=`/board/${data.boardId}`;
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

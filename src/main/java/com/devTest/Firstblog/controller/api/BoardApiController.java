@@ -1,6 +1,7 @@
 package com.devTest.Firstblog.controller.api;
 
 import com.devTest.Firstblog.config.auth.PrincipalDetail;
+import com.devTest.Firstblog.dto.ReplySaveRequestDto;
 import com.devTest.Firstblog.dto.ResponseDto;
 import com.devTest.Firstblog.model.Board;
 import com.devTest.Firstblog.model.Reply;
@@ -40,10 +41,12 @@ public class BoardApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
+    //데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는 게 좋다.
+    //dto 사용하지 않은 이유는!!!(VO얘기하는건가?)
     @PostMapping("/api/board/{boardId}/reply")
-    public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal){
+    public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto reply){
 
-        boardService.writeReply(principal.getUser(), boardId, reply);
+        boardService.writeReply(reply);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }

@@ -1,11 +1,13 @@
 package com.devTest.Firstblog.service;
 
 
+import com.devTest.Firstblog.dto.ReplySaveRequestDto;
 import com.devTest.Firstblog.model.Board;
 import com.devTest.Firstblog.model.Reply;
 import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.BoardRepository;
 import com.devTest.Firstblog.repository.ReplyRepository;
+import com.devTest.Firstblog.repository.UserRepository;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,9 @@ public class BoardService {
 
     @Autowired
     private ReplyRepository replyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional //여러 가지 프로세스가 모여서 하나의 서비스가 될 수 있다. 이 전체가 성공해야만 커밋해야한다.
                     //중간에 몇 개만 성공하고 나서 db에 커밋되면 안되잖아. 그래서 @Transactional을 붙여줘서 사용할 수 있다.
@@ -68,15 +73,23 @@ public class BoardService {
     }
 
     @Transactional
-    public void writeReply(User user, int boardId, Reply requestReply){
+    public void writeReply( ReplySaveRequestDto replySaveRequestDto){
 
-        Board board = boardRepository.findById(boardId).orElseThrow(()->{
-            return new IllegalArgumentException("댓글 쓰기 실패: 게시글 id를 찾을 수 없습니다.");
+        User user= userRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+            return new IllegalArgumentException("유저 id를 찾을 수 없습니다.");
+        });// 영속와 완료
+        Board board= boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+            return new IllegalArgumentException("게시글 id를 찾을 수 없습니다.");
         });// 영속와 완료
 
-        requestReply.setUser(user);
-        requestReply.setBoard(board);
+//        Reply reply = Reply.builder()
+//                .user(user)
+//                .board(board)
+//                .content(replySaveRequestDto.getContent())
+//                .build();
+        Reply reply = new Reply();
+        reply.update(user, board, replySaveRequestDto.getContent());
 
-        replyRepository.save(requestReply);
+        replyRepository.save(reply);
     }
 }
