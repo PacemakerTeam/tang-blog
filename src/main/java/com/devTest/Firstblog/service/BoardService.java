@@ -8,6 +8,7 @@ import com.devTest.Firstblog.model.User;
 import com.devTest.Firstblog.repository.BoardRepository;
 import com.devTest.Firstblog.repository.ReplyRepository;
 import com.devTest.Firstblog.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,22 @@ import java.util.Optional;
 
 //스프링이 컴포넌트 스캔을 통해서 Bean에 등록해줌. IoC해준다.
 @Service
+//@RequiredArgsConstructor
 public class BoardService {
+
+//    private final BoardRepository boardRepository;
+//    private final ReplyRepository replyRepository;
+
+
+    //스프링 컨테이너가 컴포넌트 스캔해서 @Repository, @Service, @Controller 가져와. 기본 생성자를 보고 챙겨오겠지?
+    //BoardRepository랑 ReplyRepository를 기본생성자로 받아야하네!?
+    //스캔했던 애들에 BoardRepository랑 ReplyRepository가 있네? 그럼 그거 주입해서 생성자 만들어줘.
+
+//    public BoardService(BoardRepository bRepo, ReplyRepository rRepo){
+//      this.boardRepository =bRepo;
+//       this.replyRepository = rRepo;
+//    }
+
 
     @Autowired
     private BoardRepository boardRepository;
