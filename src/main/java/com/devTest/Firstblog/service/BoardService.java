@@ -75,21 +75,26 @@ public class BoardService {
     @Transactional
     public void writeReply( ReplySaveRequestDto replySaveRequestDto){
 
+        /*
         User user= userRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
             return new IllegalArgumentException("유저 id를 찾을 수 없습니다.");
         });// 영속와 완료
         Board board= boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
             return new IllegalArgumentException("게시글 id를 찾을 수 없습니다.");
         });// 영속와 완료
-
+        */
 //        Reply reply = Reply.builder()
 //                .user(user)
 //                .board(board)
 //                .content(replySaveRequestDto.getContent())
 //                .build();
+        /*
         Reply reply = new Reply();
         reply.update(user, board, replySaveRequestDto.getContent());
 
         replyRepository.save(reply);
+        */
+        replyRepository.mSave(replySaveRequestDto.getUserId(),replySaveRequestDto.getBoardId(),replySaveRequestDto.getContent());
+
     }
 }
