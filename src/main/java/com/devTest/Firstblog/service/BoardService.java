@@ -113,4 +113,9 @@ public class BoardService {
         replyRepository.mSave(replySaveRequestDto.getUserId(),replySaveRequestDto.getBoardId(),replySaveRequestDto.getContent());
 
     }
+
+    @Transactional
+    public void deleteReply(int replyId ){
+        replyRepository.deleteById(replyId);
+    }
 }
